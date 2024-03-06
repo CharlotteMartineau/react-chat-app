@@ -1,19 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
+  CircularProgress,
   Grid,
   IconButton,
   InputAdornment,
   Paper,
   TextField,
   Typography,
+  Alert,
 } from "@mui/material";
 import { css } from "@emotion/react";
-
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import ForumIcon from "@mui/icons-material/Forum";
+import { signInRequest } from "../redux/AuthenticationRedux";
 
 const signInCss = {
   layout: css({
@@ -25,14 +28,17 @@ const signInCss = {
 };
 
 const SignIn = () => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowpassword] = React.useState(false);
+  const isFetching = useSelector((state) => state.authReducer.isFetching);
+  const error = useSelector((state) => state.authReducer.error);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(email);
-    console.log(password);
+    dispatch(signInRequest({ email, password }));
   };
 
   return (
@@ -49,6 +55,11 @@ const SignIn = () => {
           <Typography component="h1" variant="h5" sx={{ m: 2 }}>
             Connexion
           </Typography>
+          {error && (
+            <Alert severity="error">
+              Identifiant ou mot de passe incorrect
+            </Alert>
+          )}
           <form method="POST" onSubmit={handleSubmit}>
             <TextField
               id="email"
@@ -99,9 +110,9 @@ const SignIn = () => {
               variant="contained"
               color="primary"
               sx={{ mt: 2 }}
-              // disabled={isFetching}
+              disabled={isFetching}
             >
-              Se connecter
+              {isFetching ? <CircularProgress size={24} /> : "Se connecter"}
             </Button>
           </form>
         </Grid>

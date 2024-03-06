@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
-import muiTheme from "./muiTheme";
+import muiTheme from "./config/muiTheme";
 import SignIn from "./components/SignIn";
 
 function App() {
