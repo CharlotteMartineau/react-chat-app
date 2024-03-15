@@ -1,15 +1,18 @@
-import { authReducer } from "../redux/AuthenticationRedux";
-import rootSaga from "../sagas/index";
-import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "@redux-saga/core";
+import { authReducer } from "../redux/AuthenticationRedux";
+import { chatroomsReducer } from "../redux/ChatroomsRedux";
+import rootSaga from "../sagas/index";
 
 const sagaMiddleware = createSagaMiddleware();
 
-const rootReducer = combineReducers({ authReducer });
+const reducers = {
+  auth: authReducer,
+  chatrooms: chatroomsReducer,
+};
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: reducers,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),
 });
