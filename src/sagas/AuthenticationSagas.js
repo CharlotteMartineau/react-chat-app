@@ -7,7 +7,6 @@ import {
   setAuthTokenFailure,
 } from "../redux/AuthenticationRedux";
 import { resetChatrooms } from "../redux/ChatroomsRedux";
-import history from "../config/history";
 
 export function* signIn(api, loginAttributes) {
   const response = yield call(api.signIn, loginAttributes.payload);
@@ -31,5 +30,4 @@ export function* setAuthToken(api, authToken) {
 export function* logout(api) {
   yield call(api.removeAuthToken);
   yield put(resetChatrooms());
-  history.push("/");
 }
