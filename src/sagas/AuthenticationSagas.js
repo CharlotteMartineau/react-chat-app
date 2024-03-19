@@ -5,6 +5,7 @@ import {
   setAuthTokenRequest,
   setAuthTokenSuccess,
   setAuthTokenFailure,
+  resetOnLogout,
 } from "../redux/AuthenticationRedux";
 import { resetChatrooms } from "../redux/ChatroomsRedux";
 
@@ -24,6 +25,7 @@ export function* setAuthToken(api, authToken) {
     yield put(setAuthTokenSuccess());
   } else {
     yield put(setAuthTokenFailure());
+    yield put(resetOnLogout());
   }
 }
 
