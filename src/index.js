@@ -16,17 +16,17 @@ const onBeforeLift = () => {
 };
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate
-        loading={null}
-        persistor={persistor}
-        onBeforeLift={onBeforeLift}
-      >
+  <Provider store={store}>
+    <PersistGate
+      loading={null}
+      persistor={persistor}
+      onBeforeLift={onBeforeLift}
+    >
+      <React.StrictMode>
         <App />
-      </PersistGate>
-    </Provider>
-  </React.StrictMode>
+      </React.StrictMode>
+    </PersistGate>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
