@@ -1,6 +1,9 @@
 import { takeLatest, all } from "redux-saga/effects";
 import api from "./Api";
 
+import { startupRequest } from "../redux/StartupRedux";
+import startup from "../sagas/StartupSagas";
+
 import {
   signInRequest,
   setAuthTokenRequest,
@@ -13,6 +16,8 @@ import { getChatrooms } from "./ChatroomsSagas";
 
 export default function* rootSaga() {
   yield all([
+    takeLatest(startupRequest, startup, api),
+
     takeLatest(signInRequest, signIn, api),
     takeLatest(setAuthTokenRequest, setAuthToken, api),
     takeLatest(resetOnLogout, logout, api),

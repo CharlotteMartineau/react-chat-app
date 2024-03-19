@@ -1,17 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { store } from "./config/store";
+import { store, persistor } from "./config/store";
+import { startupRequest } from "./redux/StartupRedux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const onBeforeLift = () => {
+  const state = store.getState();
+  store.dispatch(startupRequest(state));
+};
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate
+        loading={null}
+        persistor={persistor}
+        onBeforeLift={onBeforeLift}
+      >
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
