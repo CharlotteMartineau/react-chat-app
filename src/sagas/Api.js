@@ -33,11 +33,19 @@ const create = () => {
       .catch((error) => error.response);
   };
 
+  const getChatroom = (chatroomId) => {
+    return api
+      .get(`chatrooms/${chatroomId}`)
+      .then((response) => response)
+      .catch((error) => error.response);
+  };
+
   return {
     setAuthToken,
     removeAuthToken,
     signIn,
     getChatrooms,
+    getChatroom,
   };
 };
 

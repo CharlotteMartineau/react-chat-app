@@ -11,8 +11,11 @@ import {
 } from "../redux/AuthenticationRedux";
 import { signIn, setAuthToken, logout } from "./AuthenticationSagas";
 
-import { getChatroomsRequest } from "../redux/ChatroomsRedux";
-import { getChatrooms } from "./ChatroomsSagas";
+import {
+  getChatroomsRequest,
+  getChatroomRequest,
+} from "../redux/ChatroomsRedux";
+import { getChatrooms, getChatroom } from "./ChatroomsSagas";
 
 export default function* rootSaga() {
   yield all([
@@ -23,5 +26,6 @@ export default function* rootSaga() {
     takeLatest(resetOnLogout, logout, api),
 
     takeLatest(getChatroomsRequest, getChatrooms, api),
+    takeLatest(getChatroomRequest, getChatroom, api),
   ]);
 }
