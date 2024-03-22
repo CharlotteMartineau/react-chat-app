@@ -10,9 +10,9 @@ type Props = {
 const Message = ({ message, messageMemberName, isMine }: Props) => {
   return (
     <Grid container flexDirection={isMine ? "row-reverse" : "row"}>
-      <Grid sx={{ mx: 2, my: 1 }}>
-        {!isMine && (
-          <Typography sx={{ ml: 1 }} variant="subtitle1">
+      <Grid sx={{ mx: 2, mb: 0.5 }}>
+        {!isMine && messageMemberName && (
+          <Typography sx={{ ml: 1, mt: 2 }} variant="subtitle1">
             {messageMemberName}
           </Typography>
         )}

@@ -32,6 +32,16 @@ const ChatroomShow = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatroomId]);
 
+  const getMessageMemberName = (message, i) => {
+    const currentMessageMember = getMessageMember(chatroomMembers, message);
+    const lastMessageMember =
+      i > 0 && getMessageMember(chatroomMembers, chatroom?.messages[i - 1]);
+
+    if (currentMessageMember?.first_name !== lastMessageMember?.first_name) {
+      return currentMessageMember?.first_name;
+    }
+  };
+
   return (
     <Grid container>
       <Grid item xs={4}>
@@ -64,14 +74,11 @@ const ChatroomShow = () => {
                 isChatroomFetched={isChatroomFetched}
               />
               <Grid>
-                {chatroom?.messages?.map((message) => (
+                {chatroom?.messages?.map((message, i) => (
                   <Message
                     key={message?.id}
                     message={message}
-                    messageMemberName={
-                      getMessageMember(chatroomMembers, message?.user_id)
-                        ?.first_name
-                    }
+                    messageMemberName={getMessageMemberName(message, i)}
                     isMine={message?.user_id === currentUser?.id}
                   />
                 ))}
