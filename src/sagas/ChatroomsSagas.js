@@ -28,7 +28,6 @@ export function* getChatroom(api, action) {
 
 export function* createChatroomMessage(api, action) {
   const response = yield call(api.createChatroomMessage, action.payload);
-  console.log(response);
   if (response.status === 201) {
     yield put(createChatroomMessageSuccess(response.data.message));
   } else {

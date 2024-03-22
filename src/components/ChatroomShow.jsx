@@ -8,11 +8,13 @@ import ChatMenu from "./ChatMenu";
 import Message from "./message/Message";
 import RoomHeader from "./RoomHeader";
 import MessageForm from "./message/MessageForm";
+import { getMessageMember } from "../helpers/messageHelper";
 
 const ChatroomShow = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   let { chatroom_id: chatroomId } = useParams();
+  const currentUser = useSelector((state) => state.auth.currentUser);
   const chatrooms = useSelector((state) => state.chatrooms.chatrooms);
   const chatroom = useSelector((state) => state.chatrooms.chatroom);
   const isFetching = useSelector(
@@ -20,11 +22,10 @@ const ChatroomShow = () => {
   );
   const error = useSelector((state) => state.chatrooms.errors.getChatroom);
 
+  const chatroomMembers = chatroom?.members;
+  const isCurrentChatroom = chatroom?.id?.toString() === chatroomId;
   const isChatroomFetched =
-    chatroom &&
-    chatroom?.id?.toString() === chatroomId &&
-    !isFetching &&
-    !error;
+    chatroom && isCurrentChatroom && !isFetching && !error;
 
   useEffect(() => {
     dispatch(getChatroomRequest(chatroomId));
@@ -64,7 +65,15 @@ const ChatroomShow = () => {
               />
               <Grid>
                 {chatroom?.messages?.map((message) => (
-                  <Message message={message} key={message?.id} />
+                  <Message
+                    key={message?.id}
+                    message={message}
+                    messageMemberName={
+                      getMessageMember(chatroomMembers, message?.user_id)
+                        ?.first_name
+                    }
+                    isMine={message?.user_id === currentUser?.id}
+                  />
                 ))}
               </Grid>
             </Grid>

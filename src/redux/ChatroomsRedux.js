@@ -116,7 +116,6 @@ export const chatroomsReducer = createReducer(INITIAL_STATE, (builder) => {
       };
     })
     .addCase(createChatroomMessageSuccess, (state, action) => {
-      console.log(action.payload);
       const newMessages = state.chatroom.messages.slice();
       newMessages.push(action.payload);
       return {
