@@ -18,7 +18,7 @@ const ChatroomShow = () => {
   const isFetching = useSelector(
     (state) => state.chatrooms.isFetching.getChatroom
   );
-  const error = useSelector((state) => state.chatrooms.error);
+  const error = useSelector((state) => state.chatrooms.errors.getChatroom);
 
   const isChatroomFetched =
     chatroom &&

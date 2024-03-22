@@ -18,10 +18,9 @@ const create = () => {
   };
 
   const signIn = (loginAttributes) => {
+    const { email, password } = loginAttributes;
     return api
-      .post(
-        `login?user[email]=${loginAttributes?.email}&user[password]=${loginAttributes?.password}`
-      )
+      .post(`login?user[email]=${email}&user[password]=${password}`)
       .then((response) => response)
       .catch((error) => error.response);
   };
@@ -40,12 +39,21 @@ const create = () => {
       .catch((error) => error.response);
   };
 
+  const createChatroomMessage = (messageAttributes) => {
+    const { chatroom_id, message_content } = messageAttributes;
+    return api
+      .post(`chatrooms/${chatroom_id}/messages?content=${message_content}`)
+      .then((response) => response)
+      .catch((error) => error.response);
+  };
+
   return {
     setAuthToken,
     removeAuthToken,
     signIn,
     getChatrooms,
     getChatroom,
+    createChatroomMessage,
   };
 };
 

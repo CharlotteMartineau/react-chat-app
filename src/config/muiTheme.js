@@ -12,6 +12,9 @@ const palette = {
     main: "#f9f5ef",
     dark: "#f0ede8",
   },
+  disabled: {
+    main: "#f0ede8",
+  },
 };
 
 const components = {
@@ -74,6 +77,22 @@ const components = {
         },
       },
     ],
+  },
+  MuiFilledInput: {
+    styleOverrides: {
+      root: {
+        backgroundColor: "white",
+        borderRadius: 24,
+        fontSize: 14,
+        border: `${palette.secondary.dark} solid 1px`,
+        "&.Mui-focused": {
+          backgroundColor: "white",
+        },
+        ":hover": {
+          backgroundColor: "white",
+        },
+      },
+    },
   },
 };
 
