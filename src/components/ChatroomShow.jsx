@@ -8,7 +8,7 @@ import ChatMenu from "./ChatMenu";
 import Message from "./message/Message";
 import RoomHeader from "./RoomHeader";
 import MessageForm from "./message/MessageForm";
-import { getMessageMember } from "../helpers/messageHelper";
+import { getMessageDate, getMessageMember } from "../helpers/messageHelper";
 
 const ChatroomShow = () => {
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const ChatroomShow = () => {
   );
   const error = useSelector((state) => state.chatrooms.errors.getChatroom);
 
+  const chatroomMessages = chatroom?.messages;
   const chatroomMembers = chatroom?.members;
   const isCurrentChatroom = chatroom?.id?.toString() === chatroomId;
   const isChatroomFetched =
@@ -74,12 +75,16 @@ const ChatroomShow = () => {
                 isChatroomFetched={isChatroomFetched}
               />
               <Grid>
-                {chatroom?.messages?.map((message, i) => (
+                {chatroomMessages?.map((message, i) => (
                   <Message
                     key={message?.id}
                     message={message}
                     messageMemberName={getMessageMemberName(message, i)}
                     isMine={message?.user_id === currentUser?.id}
+                    messageDate={getMessageDate(
+                      message,
+                      chatroomMessages[i - 1] || null
+                    )}
                   />
                 ))}
               </Grid>
