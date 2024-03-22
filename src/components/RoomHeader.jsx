@@ -4,9 +4,10 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 type Props = {
   chatroom: Object,
+  membersNames: String,
 };
 
-const RoomHeader = ({ chatroom }: Props) => {
+const RoomHeader = ({ chatroom, membersNames }: Props) => {
   return (
     <Grid position="sticky" top={0} zIndex={1}>
       <Paper variant="contained">
@@ -18,6 +19,8 @@ const RoomHeader = ({ chatroom }: Props) => {
           }
           title={chatroom?.name}
           titleTypographyProps={{ variant: "body1" }}
+          subheader={membersNames}
+          subheaderTypographyProps={{ variant: "subtitle1" }}
           sx={{ px: 3 }}
         />
         <Divider sx={{ mx: 2 }} />

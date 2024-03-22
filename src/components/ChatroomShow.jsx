@@ -8,7 +8,8 @@ import ChatMenu from "./ChatMenu";
 import Message from "./message/Message";
 import RoomHeader from "./RoomHeader";
 import MessageForm from "./message/MessageForm";
-import { getMessageDate, getMessageMember } from "../helpers/messageHelper";
+import { getMessageDate, getMessageMemberName } from "../helpers/messageHelper";
+import { getMembersName } from "../helpers/memberHelper";
 
 const ChatroomShow = () => {
   const dispatch = useDispatch();
@@ -32,16 +33,6 @@ const ChatroomShow = () => {
     dispatch(getChatroomRequest(chatroomId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatroomId]);
-
-  const getMessageMemberName = (message, i) => {
-    const currentMessageMember = getMessageMember(chatroomMembers, message);
-    const lastMessageMember =
-      i > 0 && getMessageMember(chatroomMembers, chatroom?.messages[i - 1]);
-
-    if (currentMessageMember?.first_name !== lastMessageMember?.first_name) {
-      return currentMessageMember?.first_name;
-    }
-  };
 
   return (
     <Grid container>
@@ -73,13 +64,21 @@ const ChatroomShow = () => {
               <RoomHeader
                 chatroom={chatroom}
                 isChatroomFetched={isChatroomFetched}
+                membersNames={
+                  chatroomMembers?.length > 2 &&
+                  getMembersName(chatroomMembers, currentUser)
+                }
               />
               <Grid>
                 {chatroomMessages?.map((message, i) => (
                   <Message
                     key={message?.id}
                     message={message}
-                    messageMemberName={getMessageMemberName(message, i)}
+                    messageMemberName={getMessageMemberName(
+                      chatroomMembers,
+                      message,
+                      chatroomMessages[i - 1] || null
+                    )}
                     isMine={message?.user_id === currentUser?.id}
                     messageDate={getMessageDate(
                       message,
