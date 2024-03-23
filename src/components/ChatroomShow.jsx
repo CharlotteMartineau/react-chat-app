@@ -2,7 +2,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Fade, Grid, LinearProgress, useTheme } from "@mui/material";
+import {
+  Drawer,
+  Fade,
+  Grid,
+  Hidden,
+  LinearProgress,
+  useTheme,
+} from "@mui/material";
 import { getChatroomRequest } from "../redux/ChatroomsRedux";
 import ChatMenu from "./ChatMenu";
 import Message from "./message/Message";
@@ -22,6 +29,7 @@ const ChatroomShow = () => {
     (state) => state.chatrooms.isFetching.getChatroom
   );
   const error = useSelector((state) => state.chatrooms.errors.getChatroom);
+  const [openDrawer, setOpenDrawer] = React.useState(false);
 
   const chatroomMessages = chatroom?.messages;
   const chatroomMembers = chatroom?.members;
@@ -36,12 +44,18 @@ const ChatroomShow = () => {
 
   return (
     <Grid container>
-      <Grid item xs={4}>
-        <ChatMenu chatrooms={chatrooms} />
-      </Grid>
+      <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
+        <ChatMenu chatrooms={chatrooms} setOpenDrawer={setOpenDrawer} />
+      </Drawer>
+      <Hidden only={["xs"]}>
+        <Grid item sm={4}>
+          <ChatMenu chatrooms={chatrooms} />
+        </Grid>
+      </Hidden>
       <Grid
         item
-        xs={8}
+        xs={12}
+        sm={8}
         container
         flexDirection="column"
         justifyContent="space-between"
@@ -68,6 +82,7 @@ const ChatroomShow = () => {
                   chatroomMembers?.length > 2 &&
                   getMembersName(chatroomMembers, currentUser)
                 }
+                setOpenDrawer={setOpenDrawer}
               />
               <Grid>
                 {chatroomMessages?.map((message, i) => (

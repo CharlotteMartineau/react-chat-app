@@ -39,6 +39,11 @@ const components = {
         ":hover": {
           backgroundColor: palette.secondary.light,
         },
+        "& .MuiTypography-root": {
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
+        },
       },
     },
   },
@@ -77,6 +82,11 @@ const components = {
         },
       },
     ],
+    styleOverrides: {
+      root: {
+        "&.MuiDrawer-paper": { maxWidth: "80%" },
+      },
+    },
   },
   MuiFilledInput: {
     styleOverrides: {

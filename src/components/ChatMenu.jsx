@@ -21,9 +21,10 @@ const css = {
 
 type Props = {
   chatrooms: Array,
+  setOpenDrawer: Function,
 };
 
-const ChatMenu = ({ chatrooms }: Props) => {
+const ChatMenu = ({ chatrooms, setOpenDrawer }: Props) => {
   const dispatch = useDispatch();
   const isFetching = useSelector(
     (state) => state.chatrooms.isFetching.getChatrooms
@@ -55,7 +56,10 @@ const ChatMenu = ({ chatrooms }: Props) => {
             <Divider />
           </Grid>
           {hasChatrooms ? (
-            <ChatroomsList chatrooms={chatrooms} />
+            <ChatroomsList
+              chatrooms={chatrooms}
+              setOpenDrawer={setOpenDrawer}
+            />
           ) : (
             !isFetching && (
               <Typography textAlign="center" sx={{ m: 4 }}>
