@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
@@ -15,12 +15,11 @@ import {
   getChatroomRequest,
 } from "../redux/ChatroomsRedux";
 import ChatMenu from "./ChatMenu";
-import Message from "./message/Message";
 import RoomHeader from "./RoomHeader";
 import MessageForm from "./message/MessageForm";
-import { getMessageDate, getMessageMemberName } from "../helpers/messageHelper";
 import { getMembersName } from "../helpers/memberHelper";
 import { subscribeChannel, unsubscribeChannel } from "../config/webSocket";
+import RoomMessages from "./message/RoomMessages";
 
 const ChatroomShow = () => {
   const dispatch = useDispatch();
@@ -33,7 +32,7 @@ const ChatroomShow = () => {
     (state) => state.chatrooms.isFetching.getChatroom
   );
   const error = useSelector((state) => state.chatrooms.errors.getChatroom);
-  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   const token = currentUser?.token;
   const chatroomMessages = chatroom?.messages;
@@ -100,24 +99,10 @@ const ChatroomShow = () => {
                 membersName={getMembersName(chatroomMembers, currentUser)}
                 setOpenDrawer={setOpenDrawer}
               />
-              <Grid>
-                {chatroomMessages?.map((message, i) => (
-                  <Message
-                    key={message?.id}
-                    message={message}
-                    messageMemberName={getMessageMemberName(
-                      chatroomMembers,
-                      message,
-                      chatroomMessages[i - 1] || null
-                    )}
-                    isMine={message?.user_id === currentUser?.id}
-                    messageDate={getMessageDate(
-                      message,
-                      chatroomMessages[i - 1] || null
-                    )}
-                  />
-                ))}
-              </Grid>
+              <RoomMessages
+                chatroomMessages={chatroomMessages}
+                chatroomMembers={chatroomMembers}
+              />
             </Grid>
             <MessageForm />
           </>
