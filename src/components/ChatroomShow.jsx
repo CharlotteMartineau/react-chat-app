@@ -10,13 +10,17 @@ import {
   LinearProgress,
   useTheme,
 } from "@mui/material";
-import { getChatroomRequest } from "../redux/ChatroomsRedux";
+import {
+  createChatroomMessageSuccess,
+  getChatroomRequest,
+} from "../redux/ChatroomsRedux";
 import ChatMenu from "./ChatMenu";
 import Message from "./message/Message";
 import RoomHeader from "./RoomHeader";
 import MessageForm from "./message/MessageForm";
 import { getMessageDate, getMessageMemberName } from "../helpers/messageHelper";
 import { getMembersName } from "../helpers/memberHelper";
+import { subscribeChannel, unsubscribeChannel } from "../config/webSocket";
 
 const ChatroomShow = () => {
   const dispatch = useDispatch();
@@ -31,6 +35,7 @@ const ChatroomShow = () => {
   const error = useSelector((state) => state.chatrooms.errors.getChatroom);
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
+  const token = currentUser?.token;
   const chatroomMessages = chatroom?.messages;
   const chatroomMembers = chatroom?.members;
   const isCurrentChatroom = chatroom?.id?.toString() === chatroomId;
@@ -41,6 +46,20 @@ const ChatroomShow = () => {
     dispatch(getChatroomRequest(chatroomId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatroomId]);
+
+  useEffect(() => {
+    const subscription = subscribeChannel(token, chatroom?.id, {
+      received: (message) => {
+        if (message?.user_id !== currentUser?.id) {
+          dispatch(createChatroomMessageSuccess(message));
+        }
+      },
+    });
+    return () => {
+      if (subscription) unsubscribeChannel(subscription);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatroom?.id, token]);
 
   return (
     <Grid container>
