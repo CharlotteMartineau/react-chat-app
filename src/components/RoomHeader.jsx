@@ -16,7 +16,7 @@ type Props = {
   setOpenDrawer: Function,
 };
 
-const RoomHeader = ({ chatroom, membersNames, setOpenDrawer }: Props) => {
+const RoomHeader = ({ chatroom, membersName, setOpenDrawer }: Props) => {
   return (
     <Grid position="sticky" top={0} zIndex={1}>
       <Paper variant="contained">
@@ -33,9 +33,9 @@ const RoomHeader = ({ chatroom, membersNames, setOpenDrawer }: Props) => {
               <MoreVertIcon />
             </IconButton>
           }
-          title={chatroom?.name}
+          title={chatroom?.name || membersName}
           titleTypographyProps={{ variant: "body1" }}
-          subheader={membersNames}
+          subheader={chatroom?.name && membersName}
           subheaderTypographyProps={{ variant: "subtitle1" }}
           sx={{ pr: 3 }}
         />

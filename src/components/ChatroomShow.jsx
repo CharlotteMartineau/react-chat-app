@@ -97,10 +97,7 @@ const ChatroomShow = () => {
               <RoomHeader
                 chatroom={chatroom}
                 isChatroomFetched={isChatroomFetched}
-                membersNames={
-                  chatroomMembers?.length > 2 &&
-                  getMembersName(chatroomMembers, currentUser)
-                }
+                membersName={getMembersName(chatroomMembers, currentUser)}
                 setOpenDrawer={setOpenDrawer}
               />
               <Grid>

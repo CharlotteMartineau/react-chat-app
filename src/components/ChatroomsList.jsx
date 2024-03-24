@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { getMembersName } from "../helpers/memberHelper";
+import { useSelector } from "react-redux";
 
 type Props = {
   chatrooms: Array,
@@ -10,6 +12,7 @@ type Props = {
 const ChatroomsList = ({ chatrooms, setOpenDrawer }: Props) => {
   const navigate = useNavigate();
   let { chatroom_id: chatroomId } = useParams();
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const handleClickListItem = (chatroomId) => {
     navigate(`/chatrooms/${chatroomId}`);
@@ -26,7 +29,11 @@ const ChatroomsList = ({ chatrooms, setOpenDrawer }: Props) => {
             onClick={() => handleClickListItem(chatroom?.id)}
             selected={chatroom?.id?.toString() === chatroomId}
           >
-            <ListItemText primary={chatroom?.name} />
+            <ListItemText
+              primary={
+                chatroom?.name || getMembersName(chatroom?.members, currentUser)
+              }
+            />
           </ListItemButton>
         </ListItem>
       ))}
