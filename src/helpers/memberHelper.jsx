@@ -7,10 +7,9 @@ export const getMembersName = (chatroomMembers, currentUser) => {
     chatroomMembers,
     currentUser
   );
-  return membersExceptCurrentUser
+  const membersName = membersExceptCurrentUser
     ?.map((member) => member?.first_name)
-    ?.reduce(
-      (accumulator, currentValue) =>
-        accumulator + ", " + currentValue + " et vous"
-    );
+    ?.reduce((accumulator, currentValue) => accumulator + ", " + currentValue);
+
+  return `${membersName} et vous`;
 };
