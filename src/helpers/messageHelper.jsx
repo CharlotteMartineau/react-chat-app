@@ -1,16 +1,8 @@
 import { getCalendarDate, getFormatDate } from "../helpers/dateHelper";
 
-export const getMessageMember = (members, message) => {
-  return members?.find((member) => member?.id === message?.user_id);
-};
-
-export const getMessageMemberName = (members, message, lastMessage) => {
-  const currentMessageMember = getMessageMember(members, message);
-  const lastMessageMember =
-    lastMessage && getMessageMember(members, lastMessage);
-
-  if (currentMessageMember?.first_name !== lastMessageMember?.first_name) {
-    return currentMessageMember?.first_name;
+export const getMessageMemberName = (message, lastMessage) => {
+  if (message?.user_id !== lastMessage?.user_id) {
+    return message?.user_first_name;
   }
 };
 

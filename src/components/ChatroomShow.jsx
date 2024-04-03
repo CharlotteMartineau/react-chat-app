@@ -38,7 +38,7 @@ const ChatroomShow = () => {
 
   const token = currentUser?.token;
   const chatroomMessages = chatroom?.messages;
-  const chatroomMembers = chatroom?.members;
+  const chatroomMemberships = chatroom?.chatroom_memberships;
   const isCurrentChatroom = chatroom?.id?.toString() === chatroomId;
   const isChatroomFetched =
     chatroom && isCurrentChatroom && !isFetching && !error;
@@ -98,14 +98,11 @@ const ChatroomShow = () => {
               <RoomHeader
                 chatroom={chatroom}
                 isChatroomFetched={isChatroomFetched}
-                membersName={getMembersName(chatroomMembers, currentUser)}
+                membersName={getMembersName(chatroomMemberships, currentUser)}
                 setOpenDrawer={setOpenDrawer}
                 setOpenAddMemberFormDialog={setOpenAddMemberFormDialog}
               />
-              <RoomMessages
-                chatroomMessages={chatroomMessages}
-                chatroomMembers={chatroomMembers}
-              />
+              <RoomMessages chatroomMessages={chatroomMessages} />
             </Grid>
             <MessageForm />
           </>

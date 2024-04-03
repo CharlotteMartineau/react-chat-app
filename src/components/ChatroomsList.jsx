@@ -24,14 +24,15 @@ const ChatroomsList = ({ chatrooms, setOpenDrawer }: Props) => {
   return (
     <List>
       {chatrooms?.map((chatroom) => (
-        <ListItem disablePadding key={chatroom?.name}>
+        <ListItem disablePadding key={chatroom?.id}>
           <ListItemButton
             onClick={() => handleClickListItem(chatroom?.id)}
             selected={chatroom?.id?.toString() === chatroomId}
           >
             <ListItemText
               primary={
-                chatroom?.name || getMembersName(chatroom?.members, currentUser)
+                chatroom?.name ||
+                getMembersName(chatroom?.chatroom_memberships, currentUser)
               }
             />
           </ListItemButton>

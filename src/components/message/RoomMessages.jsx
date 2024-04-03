@@ -10,10 +10,9 @@ import {
 
 type Props = {
   chatroomMessages: Array,
-  chatroomMembers: Array,
 };
 
-const RoomMessages = ({ chatroomMessages, chatroomMembers }: Props) => {
+const RoomMessages = ({ chatroomMessages }: Props) => {
   const currentUser = useSelector((state) => state.auth.currentUser);
   const messagesEndRef = useRef();
 
@@ -28,7 +27,6 @@ const RoomMessages = ({ chatroomMessages, chatroomMembers }: Props) => {
           key={message?.id}
           message={message}
           messageMemberName={getMessageMemberName(
-            chatroomMembers,
             message,
             chatroomMessages[i - 1] || null
           )}
