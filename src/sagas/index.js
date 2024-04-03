@@ -15,11 +15,13 @@ import {
   getChatroomsRequest,
   getChatroomRequest,
   createChatroomMessageRequest,
+  createChatroomMembershipsRequest,
 } from "../redux/ChatroomsRedux";
 import {
   getChatrooms,
   getChatroom,
   createChatroomMessage,
+  createChatroomMemberships,
 } from "./ChatroomsSagas";
 
 export default function* rootSaga() {
@@ -33,5 +35,10 @@ export default function* rootSaga() {
     takeLatest(getChatroomsRequest, getChatrooms, api),
     takeLatest(getChatroomRequest, getChatroom, api),
     takeLatest(createChatroomMessageRequest, createChatroomMessage, api),
+    takeLatest(
+      createChatroomMembershipsRequest,
+      createChatroomMemberships,
+      api
+    ),
   ]);
 }

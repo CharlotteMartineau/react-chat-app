@@ -20,6 +20,7 @@ import MessageForm from "./message/MessageForm";
 import { getMembersName } from "../helpers/memberHelper";
 import { subscribeChannel, unsubscribeChannel } from "../config/webSocket";
 import RoomMessages from "./message/RoomMessages";
+import MemberFormDialog from "./MemberFormDialog";
 
 const ChatroomShow = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const ChatroomShow = () => {
   );
   const error = useSelector((state) => state.chatrooms.errors.getChatroom);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [openAddMemberFormDialog, setOpenAddMemberFormDialog] = useState(false);
 
   const token = currentUser?.token;
   const chatroomMessages = chatroom?.messages;
@@ -98,6 +100,7 @@ const ChatroomShow = () => {
                 isChatroomFetched={isChatroomFetched}
                 membersName={getMembersName(chatroomMembers, currentUser)}
                 setOpenDrawer={setOpenDrawer}
+                setOpenAddMemberFormDialog={setOpenAddMemberFormDialog}
               />
               <RoomMessages
                 chatroomMessages={chatroomMessages}
@@ -108,6 +111,10 @@ const ChatroomShow = () => {
           </>
         )}
       </Grid>
+      <MemberFormDialog
+        open={openAddMemberFormDialog}
+        onClose={() => setOpenAddMemberFormDialog(false)}
+      />
     </Grid>
   );
 };

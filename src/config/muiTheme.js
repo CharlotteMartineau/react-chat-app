@@ -43,7 +43,15 @@ const components = {
           overflow: "hidden",
           whiteSpace: "nowrap",
           textOverflow: "ellipsis",
+          fontSize: "16px !important",
         },
+      },
+    },
+  },
+  MuiListItemText: {
+    styleOverrides: {
+      root: {
+        "& .MuiListItemText-primary": { fontSize: 14 },
       },
     },
   },

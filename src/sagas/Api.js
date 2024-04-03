@@ -47,6 +47,16 @@ const create = () => {
       .catch((error) => error.response);
   };
 
+  const createChatroomMemberships = (membershipsAttributes) => {
+    const { chatroom_id, user_emails } = membershipsAttributes;
+    return api
+      .post(
+        `chatrooms/${chatroom_id}/chatroom_memberships?user_emails[]=${user_emails}`
+      )
+      .then((response) => response)
+      .catch((error) => error.response);
+  };
+
   return {
     setAuthToken,
     removeAuthToken,
@@ -54,6 +64,7 @@ const create = () => {
     getChatrooms,
     getChatroom,
     createChatroomMessage,
+    createChatroomMemberships,
   };
 };
 

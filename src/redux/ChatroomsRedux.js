@@ -18,6 +18,16 @@ export const createChatroomMessageFailure = createAction(
   "CREATE_CHATROOM_MESSAGE_FAILURE"
 );
 
+export const createChatroomMembershipsRequest = createAction(
+  "CREATE_CHATROOM_MEMBERSHIPS_REQUEST"
+);
+export const createChatroomMembershipsSuccess = createAction(
+  "CREATE_CHATROOM_MEMBERSHIPS_SUCCESS"
+);
+export const createChatroomMembershipsFailure = createAction(
+  "CREATE_CHATROOM_MEMBERSHIPS_FAILURE"
+);
+
 export const resetChatrooms = createAction("RESET_CHATROOMS");
 
 const INITIAL_STATE = {
@@ -141,6 +151,49 @@ export const chatroomsReducer = createReducer(INITIAL_STATE, (builder) => {
         errors: {
           ...state.errors,
           createChatroomMessage: action.payload,
+        },
+      };
+    })
+    .addCase(createChatroomMembershipsRequest, (state) => {
+      return {
+        ...state,
+        isFetching: {
+          ...state.isFetching,
+          createChatroomMemberships: true,
+        },
+        errors: { ...INITIAL_STATE.errors },
+      };
+    })
+    .addCase(createChatroomMembershipsSuccess, (state, action) => {
+      const chatroom = action.payload;
+      const newChatrooms = state.chatrooms.map((c) =>
+        c.id === chatroom.id ? chatroom : c
+      );
+
+      return {
+        ...state,
+        isFetching: {
+          ...state.isFetching,
+          createChatroomMemberships: false,
+        },
+        errors: { ...INITIAL_STATE.errors },
+        chatrooms: newChatrooms,
+        chatroom: {
+          ...state.chatroom,
+          chatroom_memberships: chatroom.chatroom_memberships,
+        },
+      };
+    })
+    .addCase(createChatroomMembershipsFailure, (state, action) => {
+      return {
+        ...state,
+        isFetching: {
+          ...state.isFetching,
+          createChatroomMemberships: false,
+        },
+        errors: {
+          ...state.errors,
+          createChatroomMemberships: action.payload,
         },
       };
     })
