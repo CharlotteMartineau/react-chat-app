@@ -1,4 +1,5 @@
 import axios from "axios";
+import { appendToParam } from "../helpers/apiHelper";
 
 const create = () => {
   const api = axios.create({
@@ -49,10 +50,9 @@ const create = () => {
 
   const createChatroomMemberships = (membershipsAttributes) => {
     const { chatroom_id, user_emails } = membershipsAttributes;
+    const param = appendToParam("user_emails", user_emails);
     return api
-      .post(
-        `chatrooms/${chatroom_id}/chatroom_memberships?user_emails[]=${user_emails}`
-      )
+      .post(`chatrooms/${chatroom_id}/chatroom_memberships?${param}`)
       .then((response) => response)
       .catch((error) => error.response);
   };

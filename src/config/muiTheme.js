@@ -112,6 +112,13 @@ const components = {
       },
     },
   },
+  MuiOutlinedInput: {
+    styleOverrides: {
+      root: {
+        fontSize: 14,
+      },
+    },
+  },
 };
 
 const theme = {

@@ -6,10 +6,11 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  OutlinedInput,
 } from "@mui/material";
 import { createChatroomMembershipsRequest } from "../redux/ChatroomsRedux";
 import { useParams } from "react-router-dom";
+import { MuiChipsInput } from "mui-chips-input";
+import { isValidEmail } from "../helpers/formHelper";
 
 type Props = {
   open: Boolean,
@@ -19,7 +20,11 @@ type Props = {
 const MemberFormDialog = ({ open, onClose }: Props) => {
   let { chatroom_id: chatroomId } = useParams();
   const dispatch = useDispatch();
-  const [memberEmail, setMemberEmail] = useState("");
+  const [membersEmails, setMemberEmail] = useState([]);
+
+  const isMemberEmails = membersEmails?.length > 0;
+  const isValidForm =
+    isMemberEmails && membersEmails?.every((email) => isValidEmail(email));
 
   const handleClose = () => {
     onClose();
@@ -29,7 +34,7 @@ const MemberFormDialog = ({ open, onClose }: Props) => {
   const handleClickAddMember = () => {
     const membershipsAttributes = {
       chatroom_id: chatroomId,
-      user_emails: memberEmail,
+      user_emails: membersEmails,
     };
     dispatch(createChatroomMembershipsRequest(membershipsAttributes));
     handleClose();
@@ -39,10 +44,10 @@ const MemberFormDialog = ({ open, onClose }: Props) => {
     <Dialog open={open} onClose={handleClose} fullWidth>
       <DialogTitle id="alert-dialog-title">Ajouter un membre</DialogTitle>
       <DialogContent>
-        <OutlinedInput
-          id="member-form"
-          value={memberEmail}
-          onChange={(event) => setMemberEmail(event.target.value)}
+        <MuiChipsInput
+          placeholder="Taper l'email puis pressez la touche entrer"
+          value={membersEmails}
+          onChange={(event) => setMemberEmail(event)}
           fullWidth
           autoFocus
           size="small"
@@ -50,7 +55,7 @@ const MemberFormDialog = ({ open, onClose }: Props) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Annuler</Button>
-        <Button onClick={handleClickAddMember} autoFocus>
+        <Button onClick={handleClickAddMember} disabled={!isValidForm}>
           Ajouter
         </Button>
       </DialogActions>
